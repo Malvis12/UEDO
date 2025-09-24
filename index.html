@@ -16,8 +16,8 @@
         
         body {
             font-family: 'Open Sans', sans-serif;
-            background-color: #0a0a1a;
-            color: #f0f0f0;
+            background-color: #ffffff;
+            color: #111827; /* gray-900 */
             overflow-x: hidden;
         }
         
@@ -27,51 +27,84 @@
         }
         
         .hero-bg {
-            background: linear-gradient(rgba(10, 10, 26, 0.8), rgba(10, 10, 26, 0.9)), url('http://static.photos/aerial/1200x630/42');
+            /* lighter overlay so the image is more visible */
+            background: linear-gradient(rgba(255,255,255,0.12), rgba(255,255,255,0.12)), url('http://static.photos/aerial/1200x630/42');
             background-size: cover;
-            background-position: center;
+            background-position: center center;
+            background-repeat: no-repeat;
+            /* fixed gives a stronger visual on larger screens */
+            background-attachment: fixed;
+            position: relative;
         }
+        /* keep hero content above the background so text remains interactive/readable */
+        .hero-bg > .container { position: relative; z-index: 1; }
         
         .glow-button {
             transition: all 0.3s ease;
         }
         
         .glow-button:hover {
-            box-shadow: 0 0 15px rgba(255, 215, 0, 0.7);
+            box-shadow: 0 6px 18px rgba(34, 197, 94, 0.08);
             transform: translateY(-3px);
         }
         
         .card-hover {
-            transition: all 0.3s ease;
+            transition: all 0.28s ease;
+            border: 1px solid rgba(15,23,42,0.06);
+            border-radius: 12px;
         }
         
         .card-hover:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 25px rgba(0, 200, 255, 0.3);
+            transform: translateY(-8px);
+            box-shadow: 0 18px 40px rgba(2,6,23,0.06);
+            border-color: rgba(249,115,22,0.18);
         }
         
         .metric-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            border: 1px solid rgba(255, 215, 0, 0.2);
+            background: rgba(255,255,255,0.98);
+            box-shadow: 0 1px 3px rgba(15,23,42,0.04);
+            border-radius: 12px;
+            border: 1px solid rgba(15,23,42,0.06);
+            position: relative;
+            overflow: visible;
+            padding-left: 1rem; /* leave space for accent */
+        }
+        /* left accent bar for metric cards (keeps HTML unchanged) */
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 12px;
+            bottom: 12px;
+            width: 4px;
+            border-radius: 4px;
+            background: linear-gradient(180deg, rgba(249,115,22,1), rgba(59,130,246,1));
+            opacity: 0.95;
+        }
+        .metric-card:hover {
+            border-color: rgba(59,130,246,0.18);
+            box-shadow: 0 10px 30px rgba(59,130,246,0.06);
+            transform: translateY(-6px);
         }
         
         .map-container {
             position: relative;
             height: 500px;
-            background: rgba(10, 20, 40, 0.7);
-            border-radius: 15px;
+            background: rgba(247,250,252,0.9); /* slate-50 */
+            border-radius: 12px;
             overflow: hidden;
         }
         
         .story-card {
-            background: rgba(20, 30, 50, 0.8);
-            border-left: 4px solid #FFD700;
+            background: #ffffff;
+            border-left: 6px solid #D97706;
+            box-shadow: 0 1px 3px rgba(2,6,23,0.04);
+            padding-left: 1rem;
         }
+        .story-card + .story-card { margin-top: 0.75rem; }
         
         .footer-bg {
-            background: #080815;
+            background: #F8FAFC; /* light footer */
         }
         
         .ticker {
@@ -90,18 +123,40 @@
             0% { transform: translateX(0); }
             100% { transform: translateX(-100%); }
         }
+        
+        /* Impact stat pill styling (large counters) */
+        #impact .text-5xl {
+            display: inline-block;
+            padding: 0.6rem 1rem;
+            border-radius: 12px;
+            border: 1px solid rgba(15,23,42,0.06);
+            background: rgba(255,255,255,0.95);
+            box-shadow: 0 6px 18px rgba(2,6,23,0.03);
+            min-width: 120px;
+        }
+        #impact .text-5xl::after {
+            content: '';
+            display: block;
+            height: 4px;
+            width: 100%;
+            margin-top: 8px;
+            border-radius: 4px;
+            background: linear-gradient(90deg, rgba(249,115,22,0.9), rgba(59,130,246,0.9));
+            opacity: 0.12;
+        }
     </style>
 </head>
-<body class="bg-gray-900 text-white">
+<body class="bg-white text-gray-900">
     <!-- Navigation -->
-    <nav class="fixed w-full z-50 bg-gray-900 bg-opacity-90 backdrop-blur-sm py-4 px-6 shadow-lg">
+    <nav class="fixed w-full z-50 bg-white bg-opacity-95 backdrop-blur-sm py-5 px-6 shadow-sm"> <!-- changed py-4 -> py-5 -->
         <div class="container mx-auto flex justify-between items-center">
             <div class="flex items-center">
-                <div class="w-10 h-10 rounded-full bg-gradient-to-r from-amber-400 to-blue-500 mr-3"></div>
-                <span class="text-xl font-bold">UEDO</span>
+                <!-- larger header logo (responsive) -->
+                <img src="logo.jpg" alt="UEDO logo" class="w-14 h-14 md:w-12 md:h-12 rounded-full mr-3 object-cover" style="background: linear-gradient(90deg,#F59E0B,#3B82F6);">
+                <span class="text-xl font-bold text-gray-900">UEDO</span>
             </div>
             
-            <div class="hidden md:flex space-x-8">
+            <div class="hidden md:flex space-x-8 text-gray-700">
                 <a href="#about" class="hover:text-amber-400 transition">About</a>
                 <a href="#initiatives" class="hover:text-amber-400 transition">Initiatives</a>
                 <a href="#projects" class="hover:text-amber-400 transition">Projects</a>
@@ -111,15 +166,15 @@
                 <a href="#contact" class="hover:text-amber-400 transition">Contact</a>
             </div>
             
-             <button id="mobile-menu-btn" class="md:hidden text-2xl" aria-controls="mobile-menu" aria-expanded="false" aria-label="Toggle menu">
+             <button id="mobile-menu-btn" class="md:hidden text-2xl text-gray-700" aria-controls="mobile-menu" aria-expanded="false" aria-label="Toggle menu">
                  <i data-feather="menu"></i>
              </button>
-         </div
+         </div>
  
-         <!-- Mobile menu (hidden by default) -->
-        <div id="mobile-menu" class="md:hidden hidden bg-gray-900 bg-opacity-95 w-full">
+          <!-- Mobile menu (hidden by default) -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white bg-opacity-95 w-full shadow-sm">
             <div class="px-6 pb-4">
-                <a href="#about" class="block py-3 border-b border-gray-800 hover:text-amber-400 transition">About</a>
+                <a href="#about" class="block py-3 border-b border-gray-100 text-gray-700 hover:text-amber-400 transition">About</a>
                 <a href="#initiatives" class="block py-3 border-b border-gray-800 hover:text-amber-400 transition">Initiatives</a>
                 <a href="#projects" class="block py-3 border-b border-gray-800 hover:text-amber-400 transition">Projects</a>
                 <a href="#impact" class="block py-3 border-b border-gray-800 hover:text-amber-400 transition">Impact</a>
@@ -131,7 +186,7 @@
     </nav>
     
     <!-- Hero Section -->
-    <section id="about" class="hero-bg min-h-screen flex items-center pt-16">
+    <section id="about" class="hero-bg min-h-screen flex items-center pt-20"> <!-- increased top padding to account for larger nav/logo -->
         <div class="container mx-auto px-6 py-20 text-center">
             <h1 class="text-5xl md:text-7xl font-bold mb-6" data-aos="fade-up">
                 United Edo Diaspora <span class="text-amber-400">Organization</span>
@@ -144,65 +199,65 @@
                 <button id="join-uedo-btn" class="glow-button bg-gradient-to-r from-amber-500 to-amber-600 text-white px-8 py-4 rounded-full text-lg font-bold hover:from-amber-400 hover:to-amber-500 transition">
                     Join UEDO
                 </button>
-                <button class="glow-button bg-transparent border-2 border-blue-500 text-blue-400 px-8 py-4 rounded-full text-lg font-bold hover:bg-blue-500 hover:text-white transition">
+                <button class="glow-button bg-transparent border-2 border-blue-500 text-blue-500 px-8 py-4 rounded-full text-lg font-bold hover:bg-blue-500 hover:text-white transition">
                     See Our Impact
                 </button>
             </div>
             
             <div class="metric-card p-6 max-w-2xl mx-auto" data-aos="fade-up" data-aos-delay="600">
-                <div class="text-4xl font-bold text-amber-400 mb-2" id="diaspora-count">12,583</div>
-                <div class="text-lg">Diaspora Members Connected Worldwide</div>
+                <div class="text-4xl font-bold text-amber-600 mb-2" id="diaspora-count">0</div>
+                <div class="text-lg text-gray-700">Diaspora Members Connected Worldwide</div>
             </div>
         </div>
     </section>
     
     <!-- Interactive Diaspora Map -->
-    <section id="projects" class="py-20 bg-gradient-to-b from-gray-900 to-gray-800">
+    <section id="projects" class="py-20 bg-gradient-to-b from-gray-50 to-white">
          <div class="container mx-auto px-6">
             <h2 class="text-4xl font-bold text-center mb-16" data-aos="fade-up">
-                Our <span class="text-blue-400">Global</span> Presence
+                Our <span class="text-blue-500">Global</span> Presence
             </h2>
             
             <div class="map-container mb-12" data-aos="fade-up">
                 <div id="globe-bg" class="absolute inset-0"></div>
                 <div class="relative z-10 h-full flex items-center justify-center">
                     <div class="text-center">
-                        <div class="text-3xl font-bold mb-4">Interactive World Map</div>
-                        <p>Coming soon....</p>
+                        <div class="text-3xl font-bold mb-4 text-gray-800">Interactive World Map</div>
+                        <p class="text-gray-600">Coming soon....</p>
                     </div>
                 </div>
             </div>
             
             <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
                 <div class="metric-card p-6 text-center" data-aos="fade-up">
-                    <div class="text-3xl font-bold text-amber-400 mb-2">42</div>
-                    <div>Countries</div>
+                    <div class="text-3xl font-bold text-amber-600 mb-2">0</div>
+                    <div class="text-gray-700">Countries</div>
                 </div>
                 <div class="metric-card p-6 text-center" data-aos="fade-up" data-aos-delay="100">
-                    <div class="text-3xl font-bold text-blue-400 mb-2">125+</div>
-                    <div>Cities</div>
+                    <div class="text-3xl font-bold text-blue-500 mb-2">0</div>
+                    <div class="text-gray-700">Cities</div>
                 </div>
                 <div class="metric-card p-6 text-center" data-aos="fade-up" data-aos-delay="200">
-                    <div class="text-3xl font-bold text-green-400 mb-2">87</div>
-                    <div>Communities</div>
+                    <div class="text-3xl font-bold text-green-600 mb-2">0</div>
+                    <div class="text-gray-700">Communities</div>
                 </div>
                 <div class="metric-card p-6 text-center" data-aos="fade-up" data-aos-delay="300">
-                    <div class="text-3xl font-bold text-purple-400 mb-2">24</div>
-                    <div>Chapters</div>
+                    <div class="text-3xl font-bold text-purple-600 mb-2">0</div>
+                    <div class="text-gray-700">Chapters</div>
                 </div>
             </div>
         </div>
     </section>
     
     <!-- Focus Areas -->
-    <section id="initiatives" class="py-20 bg-gray-800">
+    <section id="initiatives" class="py-20 bg-white">
          <div class="container mx-auto px-6">
             <h2 class="text-4xl font-bold text-center mb-16" data-aos="fade-up">
-                Our <span class="text-amber-400">Core</span> Initiatives
+                Our <span class="text-amber-600">Core</span> Initiatives
             </h2>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="card-hover bg-gray-700 rounded-xl p-8" data-aos="fade-up">
+                <div class="card-hover bg-white rounded-xl p-8" data-aos="fade-up">
                     <div class="w-16 h-16 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 flex items-center justify-center mb-6">
                         <i data-feather="book-open" class="text-white text-2xl"></i>
                     </div>
@@ -210,7 +265,7 @@
                     <p>Scholarships, mentorship programs, and educational exchanges to empower the next generation of Edo leaders.</p>
                 </div>
                 
-                <div class="card-hover bg-gray-700 rounded-xl p-8" data-aos="fade-up" data-aos-delay="100">
+                <div class="card-hover bg-white rounded-xl p-8" data-aos="fade-up" data-aos-delay="100">
                     <div class="w-16 h-16 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 flex items-center justify-center mb-6">
                         <i data-feather="heart" class="text-white text-2xl"></i>
                     </div>
@@ -218,7 +273,7 @@
                     <p>Medical missions, health awareness campaigns, and healthcare infrastructure development in Edo communities.</p>
                 </div>
                 
-                <div class="card-hover bg-gray-700 rounded-xl p-8" data-aos="fade-up" data-aos-delay="200">
+                <div class="card-hover bg-white rounded-xl p-8" data-aos="fade-up" data-aos-delay="200">
                     <div class="w-16 h-16 rounded-full bg-gradient-to-r from-green-500 to-green-600 flex items-center justify-center mb-6">
                         <i data-feather="home" class="text-white text-2xl"></i>
                     </div>
@@ -226,7 +281,7 @@
                     <p>Building roads, schools, healthcare centers, and water systems to transform communities in Edo state.</p>
                 </div>
                 
-                <div class="card-hover bg-gray-700 rounded-xl p-8" data-aos="fade-up" data-aos-delay="300">
+                <div class="card-hover bg-white rounded-xl p-8" data-aos="fade-up" data-aos-delay="300">
                     <div class="w-16 h-16 rounded-full bg-gradient-to-r from-purple-500 to-purple-600 flex items-center justify-center mb-6">
                         <i data-feather="music" class="text-white text-2xl"></i>
                     </div>
@@ -234,7 +289,7 @@
                     <p>Preserving and promoting Edo heritage through festivals, art exhibitions, and cultural exchange programs.</p>
                 </div>
                 
-                <div class="card-hover bg-gray-700 rounded-xl p-8" data-aos="fade-up" data-aos-delay="400">
+                <div class="card-hover bg-white rounded-xl p-8" data-aos="fade-up" data-aos-delay="400">
                     <div class="w-16 h-16 rounded-full bg-gradient-to-r from-teal-500 to-teal-600 flex items-center justify-center mb-6">
                         <i data-feather="wifi" class="text-white text-2xl"></i>
                     </div>
@@ -242,7 +297,7 @@
                     <p>Technology training, digital literacy programs, and innovation hubs to bridge the digital divide.</p>
                 </div>
                 
-                <div class="card-hover bg-gray-700 rounded-xl p-8" data-aos="fade-up" data-aos-delay="500">
+                <div class="card-hover bg-white rounded-xl p-8" data-aos="fade-up" data-aos-delay="500">
                     <div class="w-16 h-16 rounded-full bg-gradient-to-r from-red-500 to-red-600 flex items-center justify-center mb-6">
                         <i data-feather="shield" class="text-white text-2xl"></i>
                     </div>
@@ -266,12 +321,12 @@
                     <div class="p-8">
                         <div class="flex justify-between items-center mb-4">
                             <span class="bg-amber-500 text-white px-3 py-1 rounded-full text-sm">Ongoing</span>
-                            <span>75% Complete</span>
+                            <span>0% Complete</span>
                         </div>
                         <h3 class="text-2xl font-bold mb-3">Edo Digital Literacy Initiative</h3>
                         <p class="mb-6">Training 5,000 youths in rural Edo communities with digital skills for the modern economy.</p>
                         <div class="w-full bg-gray-600 rounded-full h-2.5 mb-4">
-                            <div class="bg-amber-500 h-2.5 rounded-full" style="width: 75%"></div>
+                            <div class="bg-amber-500 h-2.5 rounded-full" style="width: 0%"></div>
                         </div>
                         <button class="glow-button border border-amber-500 text-amber-400 px-6 py-2 rounded-full hover:bg-amber-500 hover:text-white transition">
                             Track Progress
@@ -284,12 +339,12 @@
                     <div class="p-8">
                         <div class="flex justify-between items-center mb-4">
                             <span class="bg-green-500 text-white px-3 py-1 rounded-full text-sm">Completed</span>
-                            <span>100% Complete</span>
+                            <span>0% Complete</span>
                         </div>
                         <h3 class="text-2xl font-bold mb-3">Benin City Healthcare Center</h3>
                         <p class="mb-6">Construction of a modern 50-bed healthcare facility serving 50,000 residents in Benin City.</p>
                         <div class="w-full bg-gray-600 rounded-full h-2.5 mb-4">
-                            <div class="bg-green-500 h-2.5 rounded-full" style="width: 100%"></div>
+                            <div class="bg-green-500 h-2.5 rounded-full" style="width: 0%"></div>
                         </div>
                         <button class="glow-button border border-blue-500 text-blue-400 px-6 py-2 rounded-full hover:bg-blue-500 hover:text-white transition">
                             View Impact
@@ -354,7 +409,7 @@
     </section>
     
     <!-- Impact Metrics -->
-    <section id="impact" class="py-20 bg-gradient-to-b from-gray-800 to-gray-900">
+    <section id="impact" class="py-20 bg-gradient-to-b from-white to-gray-50">
         <div class="container mx-auto px-6">
             <h2 class="text-4xl font-bold text-center mb-16" data-aos="fade-up">
                 Our <span class="text-blue-400">Global</span> Impact
@@ -362,22 +417,22 @@
             
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
                 <div class="text-center" data-aos="fade-up">
-                    <div class="text-5xl font-bold text-amber-400 mb-4" data-target="12583">0</div>
+                    <div class="text-5xl font-bold text-amber-600 mb-4" data-target="0">0</div>
                     <div class="text-xl">Diaspora Members</div>
                 </div>
                 
                 <div class="text-center" data-aos="fade-up" data-aos-delay="200">
-                    <div class="text-5xl font-bold text-blue-400 mb-4" data-target="4200000">$4.2M</div>
+                    <div class="text-5xl font-bold text-blue-500 mb-4" data-target="0">0</div>
                     <div class="text-xl">Funds Mobilized</div>
                 </div>
                 
                 <div class="text-center" data-aos="fade-up" data-aos-delay="400">
-                    <div class="text-5xl font-bold text-green-400 mb-4" data-target="87">0</div>
+                    <div class="text-5xl font-bold text-green-600 mb-4" data-target="0">0</div>
                     <div class="text-xl">Projects Completed</div>
                 </div>
                 
                 <div class="text-center" data-aos="fade-up" data-aos-delay="600">
-                    <div class="text-5xl font-bold text-purple-400 mb-4" data-target="250000">0</div>
+                    <div class="text-5xl font-bold text-purple-600 mb-4" data-target="0">0</div>
                     <div class="text-xl">Lives Impacted</div>
                 </div>
             </div>
@@ -385,14 +440,14 @@
     </section>
     
     <!-- Get Involved -->
-    <section id="get-involved" class="py-20 bg-gray-800">
+    <section id="get-involved" class="py-20 bg-white">
         <div class="container mx-auto px-6">
             <h2 class="text-4xl font-bold text-center mb-16" data-aos="fade-up">
                 Get <span class="text-amber-400">Involved</span>
             </h2>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                <div class="card-hover bg-gradient-to-br from-gray-700 to-gray-800 rounded-xl p-8 text-center" data-aos="fade-up">
+                <div class="card-hover bg-white rounded-xl p-8 text-center" data-aos="fade-up">
                     <div class="w-20 h-20 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 flex items-center justify-center mx-auto mb-6">
                         <i data-feather="users" class="text-white text-3xl"></i>
                     </div>
@@ -403,7 +458,7 @@
                     </button>
                 </div>
                 
-                <div class="card-hover bg-gradient-to-br from-gray-700 to-gray-800 rounded-xl p-8 text-center" data-aos="fade-up" data-aos-delay="200">
+                <div class="card-hover bg-white rounded-xl p-8 text-center" data-aos="fade-up" data-aos-delay="200">
                     <div class="w-20 h-20 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 flex items-center justify-center mx-auto mb-6">
                         <i data-feather="heart" class="text-white text-3xl"></i>
                     </div>
@@ -414,7 +469,7 @@
                     </button>
                 </div>
                 
-                <div class="card-hover bg-gradient-to-br from-gray-700 to-gray-800 rounded-xl p-8 text-center" data-aos="fade-up" data-aos-delay="400">
+                <div class="card-hover bg-white rounded-xl p-8 text-center" data-aos="fade-up" data-aos-delay="400">
                     <div class="w-20 h-20 rounded-full bg-gradient-to-r from-green-500 to-green-600 flex items-center justify-center mx-auto mb-6">
                         <i data-feather="briefcase" class="text-white text-3xl"></i>
                     </div>
@@ -429,15 +484,16 @@
     </section>
     
     <!-- Footer -->
-    <footer id="contact" class="footer-bg py-16">
+    <footer id="contact" class="footer-bg py-16 text-gray-700">
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
                 <div>
                     <div class="flex items-center mb-6">
-                        <div class="w-10 h-10 rounded-full bg-gradient-to-r from-amber-400 to-blue-500 mr-3"></div>
-                        <span class="text-xl font-bold">UEDO</span>
+                        <!-- larger footer logo (matches header size) -->
+                        <img src="logo.jpg" alt="UEDO logo" class="w-14 h-14 md:w-12 md:h-12 rounded-full mr-3 object-cover" style="background: linear-gradient(90deg,#F59E0B,#3B82F6);">
+                        <span class="text-xl font-bold text-gray-900">UEDO</span>
                     </div>
-                    <p class="text-gray-400 mb-6">Building bridges across continents, empowering communities, preserving heritage.</p>
+                    <p class="text-gray-600 mb-6">Building bridges across continents, empowering communities, preserving heritage.</p>
                     <div class="flex space-x-4">
                         <a href="#" class="text-gray-400 hover:text-amber-400 transition">
                             <i data-feather="facebook"></i>
@@ -457,11 +513,11 @@
                 <div>
                     <h4 class="text-lg font-bold mb-6">Quick Links</h4>
                     <ul class="space-y-3">
-                        <li><a href="#" class="text-gray-400 hover:text-amber-400 transition">About Us</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-amber-400 transition">Our Initiatives</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-amber-400 transition">Projects</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-amber-400 transition">Impact Stories</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-amber-400 transition">Get Involved</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-amber-400 transition">About Us</a></li>
+                        <li><a href="#initiatives" class="text-gray-400 hover:text-amber-400 transition">Our Initiatives</a></li>
+                        <li><a href="#projects" class="text-gray-400 hover:text-amber-400 transition">Projects</a></li>
+                        <li><a href="#stories" class="text-gray-400 hover:text-amber-400 transition">Impact Stories</a></li>
+                        <li><a href="#get-involved" class="text-gray-400 hover:text-amber-400 transition">Get Involved</a></li>
                     </ul>
                 </div>
                 
@@ -470,24 +526,25 @@
                     <ul class="space-y-3 text-gray-400">
                         <li class="flex items-start">
                             <i data-feather="map-pin" class="mr-3 mt-1 text-amber-400"></i>
-                            <span>123 Heritage Avenue, Benin City, Nigeria</span>
+                            <span>30 3rd Cemetery Road, New Benin
+Benin City, Edo State. Nigeria</span>
                         </li>
                         <li class="flex items-center">
                             <i data-feather="phone" class="mr-3 text-amber-400"></i>
-                            <span>+234 123 456 7890</span>
+                            <span>07057912121, 08035476811</span>
                         </li>
                         <li class="flex items-center">
                             <i data-feather="mail" class="mr-3 text-amber-400"></i>
-                            <span>info@uedo.org</span>
+                            <span>unitededorg@gmail.com</span>
                         </li>
                     </ul>
                 </div>
                 
                 <div>
                     <h4 class="text-lg font-bold mb-6">Newsletter</h4>
-                    <p class="text-gray-400 mb-4">Stay updated with our latest initiatives and impact stories.</p>
+                    <p class="text-gray-600 mb-4">Stay updated with our latest initiatives and impact stories.</p>
                     <div class="flex">
-                        <input type="email" placeholder="Your email" class="bg-gray-700 text-white px-4 py-2 rounded-l-lg focus:outline-none w-full">
+                        <input type="email" placeholder="Your email" class="bg-gray-100 text-gray-800 px-4 py-2 rounded-l-lg focus:outline-none w-full">
                         <button class="bg-amber-500 text-white px-4 py-2 rounded-r-lg hover:bg-amber-600 transition">
                             <i data-feather="send"></i>
                         </button>
@@ -495,10 +552,10 @@
                 </div>
             </div>
             
-            <div class="border-t border-gray-700 pt-8">
+            <div class="border-t border-gray-200 pt-8">
                 <div class="ticker mb-6">
-                    <div class="ticker-content text-amber-400">
-                        🎉 Projects completed in 2025: 87 | Funds mobilized: $4.2M | Lives impacted: 250,000 | 🎉 Projects completed in 2025: 87 | Funds mobilized: $4.2M | Lives impacted: 250,000 | 
+                    <div class="ticker-content text-amber-600">
+                        🎉 Projects completed in 2025: 0 | Funds mobilized: $0 | Lives impacted: 0 | 🎉 Projects completed in 2025: 0 | Funds mobilized: $0 | Lives impacted: 0 | 
                     </div>
                 </div>
                 <div class="text-center text-gray-500 text-sm">
@@ -670,7 +727,7 @@
             scaleMobile: 1.00,
             color: 0x3b82f6,
             color2: 0x0ea5e9,
-            backgroundColor: 0x0a0a1a,
+            backgroundColor: 0xffffff,
             size: 1.50,
             lineHeight: 17.00,
             spacing: 17.00,
